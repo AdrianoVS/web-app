@@ -47,11 +47,11 @@ jobs:
         uses: google-github-actions/get-gke-credentials@v0.4.0
         with:
           cluster_name: dev-adriano-labs-cluster
-          location: europe-west3
+          location: europe-west3-a
 
       - id: get-pods
         run: kubectl get pods
-        
+
       # - name: "docker-build-push"
       #   uses: aseie/actions-templates/docker@main
       #   env:
