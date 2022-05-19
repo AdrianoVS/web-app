@@ -54,3 +54,4 @@ jobs:
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           DOCKERFILE_PATH: ${{ env.DOCKERFILE_PATH }}
+          access_token: ${{ steps.gcp-auth.outputs.access_token }}
