@@ -48,7 +48,7 @@ jobs:
         uses: aseie/actions-templates/docker@main
         env:
           IMAGE_NAME: "web-app"
-          DOCKERFILE_PATH: "./Dockerfile"
+          DOCKERFILE_PATH: "."
         with:
           IMAGE_TAG: ${{ env.IMAGE_TAG }}
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
