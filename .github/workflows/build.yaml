@@ -39,8 +39,6 @@ jobs:
       
       - name: Checkout
         uses: actions/checkout@v3 
-      - name: list files
-        run: ls -l 
         
       - name: get version
         run: ./scripts/get_version.sh
