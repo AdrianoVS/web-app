@@ -1,0 +1,54 @@
+name: 'build-container-image'
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+permissions:
+  id-token: write
+  contents: read
+  
+jobs:
+  docker-build:
+    name: 'docker-build-push'
+    runs-on: ubuntu-latest
+    environment: dev
+  
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+    
+    steps:
+      - name: get version
+        run: ./scripts/get_version.sh 
+      
+      - name: "gcp-auth"
+        uses: aseie/actions-templates/gcp-auth@main
+        with:
+          token_format: 'access_token'
+          access_token_lifetime: 900s
+          create_credentials_file: true
+          GCP_PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          GCP_IDENTITY_PROVIDER_POOL: ${{ secrets.GCP_IDENTITY_PROVIDER_POOL }}
+          GCP_IDENTITY_PROVIDER: ${{ secrets.GCP_IDENTITY_PROVIDER }}
+
+      - name: "docker-build-push"
+        uses: aseie/actions-templates/docker@main
+        env:
+          IMAGE_NAME: "web-app"
+          GCR_ADDRESS: "gcr.io"
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          DOCKERFILE_PATH: "./Dockerfile"
+        with:
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
+          GCR_ADDRESS: ${{ env.GCP_ADDRESS }}
+          GCP_PROJECT_ID: ${{ env.GCP_PROJECT_ID }}
+          DOCKERFILE_PATH: ${{ env.DOCKERFILE_PATH }}
