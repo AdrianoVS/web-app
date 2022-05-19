@@ -36,12 +36,14 @@ jobs:
           GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
           GCP_IDENTITY_PROVIDER_POOL: ${{ secrets.GCP_IDENTITY_PROVIDER_POOL }}
           GCP_IDENTITY_PROVIDER: ${{ secrets.GCP_IDENTITY_PROVIDER }}
-
+      
+      - name: Checkout
+        uses: actions/checkout@v3 
       - name: list files
-        run: ls -l ${{ github.workspace }}/
+        run: ls -l 
         
       - name: get version
-        run: ${{ github.workspace }}/scripts/get_version.sh
+        run: ./scripts/get_version.sh
 
       - name: "docker-build-push"
         uses: aseie/actions-templates/docker@main
