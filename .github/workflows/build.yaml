@@ -52,12 +52,11 @@ jobs:
         uses: aseie/actions-templates/docker@main
         env:
           IMAGE_NAME: "web-app"
-          GCR_ADDRESS: "gcr.io"
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCR_ADDRESS: gcr.io
           DOCKERFILE_PATH: "./Dockerfile"
         with:
           IMAGE_TAG: ${{ env.IMAGE_TAG }}
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           GCR_ADDRESS: ${{ env.GCP_ADDRESS }}
-          GCP_PROJECT_ID: ${{ env.GCP_PROJECT_ID }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           DOCKERFILE_PATH: ${{ env.DOCKERFILE_PATH }}
