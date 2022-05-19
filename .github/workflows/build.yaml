@@ -24,34 +24,34 @@ jobs:
         shell: bash
     
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3 
       
       - name: "gcp-auth"
         uses: aseie/actions-templates/gcp-auth@main
         with:
           token_format: 'access_token'
           access_token_lifetime: 300s
-          # create_credentials_file: true
+          create_credentials_file: true
           GCP_PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }}
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
           GCP_IDENTITY_PROVIDER_POOL: ${{ secrets.GCP_IDENTITY_PROVIDER_POOL }}
           GCP_IDENTITY_PROVIDER: ${{ secrets.GCP_IDENTITY_PROVIDER }}
           
-      - name: Checkout
-        uses: actions/checkout@v3 
 
       - name: set version
         run:  |
           echo "IMAGE_TAG=$(awk -F'"' '/"version": ".+"/{ print $4; exit; }' package.json)" >> $GITHUB_ENV
 
-      - name: "docker-build-push"
-        uses: aseie/actions-templates/docker@main
-        env:
-          IMAGE_NAME: "web-app"
-          DOCKERFILE_PATH: "."
-        with:
-          IMAGE_TAG: ${{ env.IMAGE_TAG }}
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-          DOCKERFILE_PATH: ${{ env.DOCKERFILE_PATH }}
-          # access_token: ${{ steps.gcp-auth.outputs.access_token }}
+      # - name: "docker-build-push"
+      #   uses: aseie/actions-templates/docker@main
+      #   env:
+      #     IMAGE_NAME: "web-app"
+      #     DOCKERFILE_PATH: "."
+      #   with:
+      #     IMAGE_TAG: ${{ env.IMAGE_TAG }}
+      #     IMAGE_NAME: ${{ env.IMAGE_NAME }}
+      #     GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      #     DOCKERFILE_PATH: ${{ env.DOCKERFILE_PATH }}
+      #     access_token: ${{ steps.gcp-auth.outputs.access_token }}
