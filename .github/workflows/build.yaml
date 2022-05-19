@@ -36,7 +36,11 @@ jobs:
           GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
           GCP_IDENTITY_PROVIDER_POOL: ${{ secrets.GCP_IDENTITY_PROVIDER_POOL }}
           GCP_IDENTITY_PROVIDER: ${{ secrets.GCP_IDENTITY_PROVIDER }}
-      
+          
+      - name: login-gcr
+        run: |-
+          echo '${{ steps.gcp-auth.outputs.access_token }}' | docker login -u oauth2accesstoken --password-stdin https://gcr.io
+
       - name: Checkout
         uses: actions/checkout@v3 
 
