@@ -38,10 +38,10 @@ jobs:
           GCP_IDENTITY_PROVIDER: ${{ secrets.GCP_IDENTITY_PROVIDER }}
 
       - name: list files
-        run: ls -l ${{ workspace }}/
+        run: ls -l ${{ github.workspace }}/
         
       - name: get version
-        run: ${{ workspace }}/scripts/get_version.sh
+        run: ${{ github.workspace }}/scripts/get_version.sh
 
       - name: "docker-build-push"
         uses: aseie/actions-templates/docker@main
