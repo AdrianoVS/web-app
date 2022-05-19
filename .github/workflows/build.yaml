@@ -37,9 +37,12 @@ jobs:
           GCP_IDENTITY_PROVIDER_POOL: ${{ secrets.GCP_IDENTITY_PROVIDER_POOL }}
           GCP_IDENTITY_PROVIDER: ${{ secrets.GCP_IDENTITY_PROVIDER }}
 
+      - name: list files
+        run: ls -l
+        
       - name: get version
         run: ./scripts/get_version.sh
-        
+
       - name: "docker-build-push"
         uses: aseie/actions-templates/docker@main
         env:
