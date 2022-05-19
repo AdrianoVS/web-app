@@ -50,7 +50,7 @@ jobs:
           location: europe-west3-a
 
       - id: get-pods
-        run: kubectl get pods
+        run: kubectl get nodes
 
       # - name: "docker-build-push"
       #   uses: aseie/actions-templates/docker@main
