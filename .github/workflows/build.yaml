@@ -9,8 +9,8 @@ on:
     - main
 
 permissions:
-  id-token: write
-  contents: read
+  contents: 'read'
+  id-token: 'write'
   
 jobs:
   docker-build:
@@ -39,11 +39,19 @@ jobs:
           GCP_IDENTITY_PROVIDER_POOL: ${{ secrets.GCP_IDENTITY_PROVIDER_POOL }}
           GCP_IDENTITY_PROVIDER: ${{ secrets.GCP_IDENTITY_PROVIDER }}
           
-
       - name: set version
         run:  |
           echo "IMAGE_TAG=$(awk -F'"' '/"version": ".+"/{ print $4; exit; }' package.json)" >> $GITHUB_ENV
+      
+      - id: get-gke-credentials
+        uses: google-github-actions/get-gke-credentials@v0.4.0
+        with:
+          cluster_name: dev-adriano-labs-cluster
+          location: europe-west3
 
+      - id: get-pods
+        run: kubectl get pods
+        
       # - name: "docker-build-push"
       #   uses: aseie/actions-templates/docker@main
       #   env:
