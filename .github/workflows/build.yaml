@@ -39,9 +39,14 @@ jobs:
       
       - name: Checkout
         uses: actions/checkout@v3 
-        
+
+      - name: set version
+        run:  |
+          echo "IMAGE_TAG=$(awk -F'"' '/"version": ".+"/{ print $4; exit; }' package.json)" >> $GITHUB_ENV
+
       - name: get version
-        run: ./scripts/get_version.sh
+        run:  |
+          echo ${{ env.IMAGE_TAG }}
 
       - name: "docker-build-push"
         uses: aseie/actions-templates/docker@main
