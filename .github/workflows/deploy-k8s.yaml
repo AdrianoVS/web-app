@@ -1,0 +1,52 @@
+name: 'build-container-image'
+
+on:
+  workflow_dispatch:
+  
+permissions:
+  contents: 'read'
+  id-token: 'write'
+  
+jobs:
+  deploy-to-gke:
+    name: 'docker-build-push'
+    runs-on: ubuntu-latest
+    environment: dev
+  
+    defaults:
+      run:
+        shell: bash
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3 
+      
+      - name: "gcp-auth"
+        uses: aseie/actions-templates/gcp-auth@main
+        with:
+          token_format: 'access_token'
+          access_token_lifetime: 300s
+          create_credentials_file: true
+          GCP_PROJECT_NUMBER: ${{ secrets.GCP_PROJECT_NUMBER }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          GCP_IDENTITY_PROVIDER_POOL: ${{ secrets.GCP_IDENTITY_PROVIDER_POOL }}
+          GCP_IDENTITY_PROVIDER: ${{ secrets.GCP_IDENTITY_PROVIDER }}
+
+      - name: gke-cluster-login
+        id: get-gke-credentials
+        uses: google-github-actions/get-gke-credentials@v0.4.0
+        with:
+          cluster_name: dev-adriano-labs-cluster
+          location: europe-west3-a
+
+      - name: deploy-web-app
+        id: deploy-web-app
+        run: |
+          kubectl create ns web-app
+          kubectl apply -f ./deploy.yaml
+        with:
+          cluster_name: dev-adriano-labs-cluster
+          location: europe-west3-a
+
+      

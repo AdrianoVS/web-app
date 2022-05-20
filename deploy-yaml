@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: web-app
+spec:
+  selector:
+    matchLabels:
+      app: web-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - name: web-app
+        image: gcr.io/adrianoseie-lab/web-app:1.0.0
+        env:
+        - name: ENV
+          value: "dev"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        ports:
+        - name: http
+          containerPort: 80
