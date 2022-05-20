@@ -35,10 +35,10 @@ spec:
         env:
         - name: ENV
           value: "dev"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: http
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: http
         ports:
         - name: http
           containerPort: 5000
