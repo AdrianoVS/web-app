@@ -43,5 +43,6 @@ jobs:
       - name: deploy-web-app
         id: deploy-web-app
         run: |
-          kubectl create ns web-app
+          web_app_ns="web-app"
+          kubectl get namespace | grep -q "^$web_app_ns " || kubectl create namespace $web_app_ns-app
           kubectl apply -f ./deploy.yaml
