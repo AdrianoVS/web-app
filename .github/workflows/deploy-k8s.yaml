@@ -45,8 +45,3 @@ jobs:
         run: |
           kubectl create ns web-app
           kubectl apply -f ./deploy.yaml
-        with:
-          cluster_name: dev-adriano-labs-cluster
-          location: europe-west3-a
-
-      
