@@ -1,5 +1,6 @@
 FROM nginx:alpine
 
-COPY ./src/* /usr/share/nginx/html
+COPY default.conf /etc/nginx/conf.d/
+COPY ./src/* /usr/share/nginx/html/
 
-EXPOSE 80
+EXPOSE 5000
