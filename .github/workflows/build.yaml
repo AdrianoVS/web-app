@@ -41,6 +41,7 @@ jobs:
           
       - name: set version
         run:  |
+          npm version patch
           echo "IMAGE_TAG=$(awk -F'"' '/"version": ".+"/{ print $4; exit; }' package.json)" >> $GITHUB_ENV
 
       - name: "docker-build-push"
