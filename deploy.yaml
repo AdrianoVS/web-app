@@ -32,7 +32,7 @@ spec:
       containers:
       - name: web-app
         imagePullPolicy: Always
-        image: gcr.io/adrianoseie-lab/web-app:1.0.3
+        image: gcr.io/adrianoseie-lab/web-app:1.0.4
         env:
         - name: ENV
           value: "dev"
