@@ -1,4 +1,4 @@
-name: 'build-container-image'
+name: 'deploy-to-gke'
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ permissions:
   
 jobs:
   deploy-to-gke:
-    name: 'docker-build-push'
+    name: 'deploy-k8s'
     runs-on: ubuntu-latest
     environment: dev
   
