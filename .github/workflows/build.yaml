@@ -10,7 +10,7 @@ on:
 
 permissions:
   contents: 'read'
-  # id-token: 'write'
+  id-token: 'write'
   
 jobs:
   docker-build:
@@ -42,15 +42,6 @@ jobs:
       - name: set version
         run:  |
           echo "IMAGE_TAG=$(awk -F'"' '/"version": ".+"/{ print $4; exit; }' package.json)" >> $GITHUB_ENV
-      
-      - id: get-gke-credentials
-        uses: google-github-actions/get-gke-credentials@v0.4.0
-        with:
-          cluster_name: dev-adriano-labs-cluster
-          location: europe-west3-a
-
-      - id: get-pods
-        run: kubectl get nodes
 
       - name: "docker-build-push"
         uses: aseie/actions-templates/docker@main
@@ -62,4 +53,3 @@ jobs:
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           DOCKERFILE_PATH: ${{ env.DOCKERFILE_PATH }}
-          access_token: ${{ steps.gcp-auth.outputs.access_token }}
