@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: web-app
-        image: gcr.io/adrianoseie-lab/web-app:1.0.0
+        image: gcr.io/adrianoseie-lab/web-app:1.0.1
         env:
         - name: ENV
           value: "dev"
